@@ -1,10 +1,10 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
+
 var ObjectId = require('mongodb').ObjectID;
 
 var app = express();
-var db;
+var db = require('./db');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -30,7 +30,7 @@ app.get('/', function(req, res){
 
 app.get('/artists', function(req, res){
 
-	db.collection("artists").find().toArray(function(err, docs){
+	db.get().collection("artists").find().toArray(function(err, docs){
 		if(err){
 			console.log(err);
 			return res.sendStatus(500);
@@ -41,7 +41,7 @@ app.get('/artists', function(req, res){
 });
 
 app.get('/artists/:id', function(req, res){
-	db.collection("artists").findOne({_id: ObjectId(req.params.id)}, function(err, docs){
+	db.get().collection("artists").findOne({_id: ObjectId(req.params.id)}, function(err, docs){
 		if(err){
 			console.log(err);
 			return res.sendStatus(500);
@@ -54,7 +54,7 @@ app.post('/artists', function(req, res){
 	var artist = {
 		name: req.body.name
 	};
-	db.collection('artists').insert(artist, function(err, result){
+	db.get().collection('artists').insert(artist, function(err, result){
 		if(err){
 			console.log(err);
 			return res.sendStatus(500);
@@ -65,26 +65,37 @@ app.post('/artists', function(req, res){
 });
 
 app.put('/artists/:id', function(req, res){
-	var artist = artists.find(function(artist){
-		return artist.id === Number(req.params.id);
-	});
-	artist.name = req.body.name;
-	res.sendStatus(200);
+	db.get().collection('artists').updateOne(
+			{_id: ObjectId(req.params.id)},
+	{name: req.body.name},
+	function(err, result){
+		if(err){
+			console.log(err);
+			res.sendStatus(500);
+		}
+		res.sendStatus(200);
+	}
+	);
 });
 
 app.delete('/artists/:id', function(req, res){
-	artists = artists.filter(function(artist){
-		return artist.id !== Number(req.params.id);
-	});
-	res.sendStatus(200);
+	db.get().collection('artists').deleteOne(
+			{_id: ObjectId(req.params.id)},
+	function(err, result){
+		if(err){
+			console.log(err);
+			res.sendStatus(500);
+		}
+		res.sendStatus(200);
+	}
+	);
 });
 
 
-MongoClient.connect('mongodb://localhost:27017/myapi', function(err, database){
+db.connect('mongodb://localhost:27017/myapi', function(err){
 	if(err){
 		return console.log(err);
 	}
-	db = database;
 	app.listen(3012, function(){
 		console.log('API app started');
 	});
