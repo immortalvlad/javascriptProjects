@@ -1,2 +1,4 @@
 /node_modules/
 /nbproject/
+/webpack/node_modules/
+/webpactest/node_modules/
