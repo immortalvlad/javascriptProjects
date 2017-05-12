@@ -2,3 +2,5 @@
 /nbproject/
 /webpack/node_modules/
 /webpactest/node_modules/
+/reacttest/node_modules/
+/reacttest/dist/bundle.js
