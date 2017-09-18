@@ -5,57 +5,57 @@ const extractLess = new ExtractTextPlugin({
     disable: process.env.NODE_ENV === "development"
 });
 module.exports = {
-	entry: './main.js',
-	output: {
-		filename: 'bundle.js'
-	},
-	resolve: {
-		modules: [
-			"node_modules"
-		]
-	},
-	module: {
-		rules: [
-			{
-				test: /\.js/,
-				use: ['babel-loader'],
-				exclude: /(node_modules|)/
-			},
-			{
-				test : /\.css$/,
-				use:ExtractTextPlugin.extract({
-					fallback:'style-loader',
-					use:'css-loader'
-				})
-			},
-			{
+    entry: './main.js',
+    output: {
+        filename: 'bundle.js'
+    },
+    resolve: {
+        modules: [
+            "node_modules"
+        ]
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js/,
+                use: ['babel-loader'],
+                exclude: /(node_modules|)/
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader'
+                })
+            },
+            {
                 test: /\.hbs/,
-				use: ['handlebars-loader'],
+                use: ['handlebars-loader'],
                 exclude: /(node_modules|bower_components)/
             },
-			{
-				test:/\.less$/,
-				use: extractLess.extract({
-					use: [
+            {
+                test: /\.less$/,
+                use: extractLess.extract({
+                    use: [
                         {
-                            loader:"css-loader"
+                            loader: "css-loader"
                         },
                         {
-                            loader:"less-loader", options: {
-								plugins: [
-									new CleanCSSPlugin({ advanced: true })
-								]
-                        	}
+                            loader: "less-loader", options: {
+                                plugins: [
+                                    new CleanCSSPlugin({advanced: true})
+                                ]
+                            }
                         }
                     ],
                     fallback: "style-loader"
-				})
-			}
+                })
+            }
 
-		]
-	},
-	plugins:[
-		new ExtractTextPlugin('bundle.css'),
+        ]
+    },
+    plugins: [
+        new ExtractTextPlugin('bundle.css'),
         extractLess
-	]
+    ]
 };

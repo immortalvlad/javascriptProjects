@@ -4,3 +4,85 @@
 /webpactest/node_modules/
 /reacttest/node_modules/
 /reacttest/dist/bundle.js
+/node/nbproject/private/
+/reacttest/nbproject/private/
+/reacttest/npm-debug.log
+/reacttest/nbproject/
+/node/nbproject/
+/.idea/
+/reactcurse/node_modules/
+/reactrouter/nbproject/private/
+/reactrouter/nbproject/
+/reactrouter — копия/node_modules/
+/reactrouter — копия/nbproject/private/
+/reactrouterredux/nbproject/private/
+/reactrouterredux/node_modules/
+/webpack/nbproject/private/
+### JetBrains template
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff:
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+.idea/*
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+
+# Gradle:
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# CMake
+cmake-build-debug/
+
+# Mongo Explorer plugin:
+.idea/**/mongoSettings.xml
+
+## File-based project format:
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+.idea/replstate.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+/reactrouter/node_modules/
+npm-debug.log
+screencast/chat/
+screencast/chat_simple/
+screencast/domain/
+screencast/fs/
+screencast/stream/
+screencast/test1/db/ru.json
+screencast/test1/error/
+screencast/test1/logger.js
+screencast/test1/server.js
+screencast/test1/user/
+screencast/test2/
+screencast/test3/
+screencast/test4/
+/reduxcurse/node_modules/
+/voting-client/node_modules/

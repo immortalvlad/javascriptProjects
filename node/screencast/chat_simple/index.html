@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body class="container">
+        <p class="lead">Добро пожаловать в чат!</p>
+        <form id="publish" class="form-inline">
+            <input type="text" name="message" />
+            <input type="submit" class="btm btm-primary" value="Отправить" />
+        </form>
+        <ul id="message">
+            <script>
+                publish.onsubmit = function () {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/publish", true);
+//                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    var data = JSON.stringify({message: this.elements.message.value});
+//                    console.log(data);
+                    xhr.send(data);
+
+                    this.elements.message.value = '';
+                    return false;
+                };
+                subscribe();
+
+                function subscribe() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "/subscribe", true);
+                    xhr.onload = function () {
+                        var li = document.createElement('li');
+                        li.textContent = this.responseText;
+                        message.appendChild(li);
+                        subscribe();
+                    };
+                    xhr.onerror = xhr.onabort = function () {
+                        setTimeout(subscribe, 500);
+                    };
+                    xhr.send();
+                }
+            </script>
+        </ul>
+    </body>
+</html>

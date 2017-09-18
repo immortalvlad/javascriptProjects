@@ -1,0 +1,97 @@
+<% layout('./layout/page') -%>
+<% block('title','Привет'); -%> 
+
+<script src="/socket.io/socket.io.js"></script>
+<div id="room">
+    <ul></ul>
+    <form>
+        <input class="form-control" autocomplete="off" autofocus placeholder="Сообщениe...">
+    </form>
+</div>
+<script>
+    window.onload = run;
+    function run(){
+        var socket = io.connect('',{
+            'reconnectionDelay':1
+            //reconnection:false
+        });
+        var input =$('#room input');
+        var form = $('#room form');
+        var ul = $('#room ul');
+
+        /*form.submit(function(){  
+            var input = $(this).find(":input");
+            var text = input.val();
+            input.val('');
+            socket.emit('message',text,function(data){
+                console.log(data);
+                $('<li>',{text:text}).appendTo(ul);
+            });
+            return false;
+        });*/
+        socket.on('message',function(username,message){
+            printMessage(username + "> " + message);
+        }).on('connect',function(){
+            printStatus('соединение установлено');
+            form.on('submit',sendMessage);
+            input.prop('disabled',false);
+        })
+        .on('leave',function(username){
+            printStatus(username + ' вышел из чата');
+        })
+        .on('join',function(username){
+            printStatus(username + ' вошёл в чат');
+        })
+        .on('disconnect',function(){
+            printStatus('соединение потеряно');
+            form.off('submit',sendMessage);
+            input.prop('disabled',true);
+            //this.emit('error');
+            //setTimeout(reconnect,500);
+        })
+        .on('logout',function(){
+            location.href = "/";
+        })
+        .on('error',function(reason){
+            console.log(reason);
+            if(reason == "handshake unauthorized"){
+                printStatus('вы вышли из чата');
+            }else{
+                setTimeout(function(){
+                    socket.connect();
+                },500);
+            }
+        })
+        .on('reconnect_failed',function(){
+            alert('Соединение умерло навсегда');
+        });
+        
+        function sendMessage(){
+            var text = input.val();
+            socket.emit('message',text,function(){
+                printMessage(text);
+            });
+            input.val('');
+            return false;
+        }
+
+        function reconnect() {
+            socket.once('connect_error', function() {
+              setTimeout(reconnect, 500);
+            });
+            socket.connect();
+        }
+
+        function printStatus(status) {
+           $('<li>').append($('<i>').text(status)).appendTo(ul);
+         }
+        function printMessage(text) {
+          $('<li>').text(text).appendTo(ul);
+        }
+    }
+    
+</script>
+<p class='lead'>Здесь будет чат.</p>
+<% if (user){%>
+<p>Добро пожаловать, <%=user.get('username')%></p>
+<%}%>
